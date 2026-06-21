@@ -5,7 +5,7 @@ from selections import fixes
 from selections import health
 
 while True:
-    print("===SELF TROUBLESHOOT AND SYSTEM DIAGNOSTIC TOOL===")
+    print("\n=== SELF TROUBLESHOOT AND SYSTEM DIAGNOSTIC TOOL ===")
     print("[1] System Information")
     print("[2] Performance Check")
     print("[3] Network Check")
