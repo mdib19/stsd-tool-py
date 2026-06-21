@@ -1,17 +1,17 @@
-import system_info
-import performance
-import network
-import fixes
-import health
+from selections import system_info
+from selections import performance
+from selections import network
+from selections import fixes
+from selections import health
 
 while True:
-    print("\n===SELF TROUBLESHOOT AND SYSTEM DIAGNOTIC TOOL ===")
-    print("1. System Information")
-    print("2. Performance Check")
-    print("3. Network Check")
-    print("4. One Click Fixes")
-    print("5. System Health Score")
-    print("6. Exit")  
+    print("===SELF TROUBLESHOOT AND SYSTEM DIAGNOSTIC TOOL===")
+    print("[1] System Information")
+    print("[2] Performance Check")
+    print("[3] Network Check")
+    print("[4] One Click Fixes")
+    print("[5] System Health Score")
+    print("[6] Exit") 
 
     choice = input("Please select an option: ")
 
@@ -22,12 +22,12 @@ while True:
         performance.show_performance()
 
     elif choice == "3":
-        print("\n1. Internet Check")
-        print("2. IP Info")
-        print("3. Ping Test")
-        print("4. Full Diagnosis")
+        print("[1] Internet Check")
+        print("[2] IP Info")
+        print("[3] Ping Test")
+        print("[4] Full Diagnosis")
 
-        sub = input("Select: ")
+        sub = input("Please select an option: ")
 
         if sub == "1":
             network.check_internet()
@@ -45,11 +45,11 @@ while True:
             print("Invalid option")
             
     elif choice == "4":
-        print("\n1. Flush DNS")
-        print("2. Renew IP")
-        print("3. Clear Temp Files")
+        print("[1] Flush DNS")
+        print("[2] Renew IP")
+        print("[3] Clear Temp Files")
 
-        fix = input("Select: ")
+        fix = input("Please select an option: ")
 
         if fix == "1":
             fixes.flush_dns()
