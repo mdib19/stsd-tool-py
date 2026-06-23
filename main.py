@@ -9,10 +9,9 @@ while True:
     print("[1] System Information")
     print("[2] Performance Check")
     print("[3] Network Check")
-    print("[4] One Click Fixes")
+    print("[4] Fixes")
     print("[5] System Health Score")
     print("[6] Exit") 
-
     choice = input("Please select an option: ")
 
     if choice == "1":
@@ -26,7 +25,6 @@ while True:
         print("[2] IP Info")
         print("[3] Ping Test")
         print("[4] Full Diagnosis")
-
         sub = input("Please select an option: ")
 
         if sub == "1":
@@ -45,10 +43,14 @@ while True:
             print("Invalid option")
             
     elif choice == "4":
-        print("[1] Flush DNS")
-        print("[2] Renew IP")
-        print("[3] Clear Temp Files")
-
+        print("\n=== FIXES ===")
+        print("[1] Flush DNS --- Fixes websites not loading")
+        print("[2] Renew IP --- Fixes network issues")
+        print("[3] Clear Temp Files --- Frees space and speed up PC")
+        print("[4] Run SFC Scan --- Scan and repair corrupted system files")
+        print("[5] Reset Winsock --- Fixes network issues")
+        print("[6] Reset TCP/IP Stack --- Fixes network issues")
+        print("[7] Kill High CPU Process --- Speed up PC")
         fix = input("Please select an option: ")
 
         if fix == "1":
@@ -59,6 +61,18 @@ while True:
 
         elif fix == "3":
             fixes.clear_temp_files()
+
+        elif fix == "4":
+            fixes.run_sfc_scan()
+
+        elif fix == "5":
+            fixes.reset_winsock()
+
+        elif fix == "6":
+            fixes.reset_tcpip()
+
+        elif fix == "7":
+            fixes.kill_high_cpu_process()
 
         else:
             print("Invalid option")
