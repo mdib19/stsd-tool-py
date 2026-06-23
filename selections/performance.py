@@ -15,7 +15,7 @@ def show_performance():
     disk = psutil.disk_usage('/')
     print("Disk Usage:", disk.percent, "%")
 
-    #TOP PROCESS
+    #TOP CPU PROCESSES
     print("\nTop CPU Processes:")
     processes = psutil.process_iter(['pid', 'name', 'cpu_percent'])
 
@@ -24,6 +24,17 @@ def show_performance():
         key=lambda p: p.info['cpu_percent'] or 0,
         reverse=True
     )
-
     for proc in sorted_processes[:5]:
         print(proc.info['name'], "-", proc.info['cpu_percent'], "%")
+        
+    #TOP RAM PROCESSES
+    print("\nTop RAM Processes:")
+    processes = psutil.process_iter(['pid', 'name', 'memory_percent'])
+
+    sorted_by_ram = sorted(
+        processes,
+        key=lambda p: p.info['memory_percent'] or 0,
+        reverse=True
+    )
+    for proc in sorted_by_ram[:5]:
+        print(proc.info['name'], "-", round(proc.info['memory_percent'], 2), "%")
