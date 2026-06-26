@@ -42,6 +42,12 @@ def run_sfc_scan():
     print("Please do not close the window.")
     subprocess.run("sfc /scannow", shell=True)
     print("SFC Scan complete.")
+    
+#chkdsk
+def run_chkdsk():
+    print("\nRunning Check Disk Scan...")
+    subprocess.run("chkdsk C: /f /r", shell=True)
+    print("Done.")
 
 #winsock
 def reset_winsock():

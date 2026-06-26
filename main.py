@@ -1,8 +1,25 @@
+import ctypes
+import sys
+import os
+
+def run_as_admin():
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return
+    else:
+        script = os.path.abspath(sys.argv[0])
+        ctypes.windll.shell32.ShellExecuteW(
+            None, "runas", sys.executable, f'"{script}"', None, 1
+        )
+        sys.exit()
+
+run_as_admin()
+
 from selections import system_info
 from selections import performance
 from selections import network
 from selections import fixes
 from selections import health
+from selections import event_logs
 
 while True:
     print("\n=== SELF TROUBLESHOOT AND SYSTEM DIAGNOSTIC TOOL ===")
@@ -11,7 +28,8 @@ while True:
     print("[3] Network Check")
     print("[4] Fixes")
     print("[5] System Health Score")
-    print("[6] Exit") 
+    print("[6] View Event Logs")
+    print("[7] Exit") 
     choice = input("Please select an option: ")
 
     if choice == "1":
@@ -48,9 +66,10 @@ while True:
         print("[2] Renew IP --- Fixes network issues")
         print("[3] Clear Temp Files --- Frees space and speed up PC")
         print("[4] Run SFC Scan --- Scan and repair corrupted system files")
-        print("[5] Reset Winsock --- Fixes network issues")
-        print("[6] Reset TCP/IP Stack --- Fixes network issues")
-        print("[7] Kill High CPU Process --- Speed up PC")
+        print("[5] Check Disk (chkdsk) --- Scan and repair disk")
+        print("[6] Reset Winsock --- Fixes network issues")
+        print("[7] Reset TCP/IP Stack --- Fixes network issues")
+        print("[8] Kill High CPU Process --- Speed up PC")
         fix = input("Please select an option: ")
 
         if fix == "1":
@@ -64,14 +83,17 @@ while True:
 
         elif fix == "4":
             fixes.run_sfc_scan()
-
+            
         elif fix == "5":
-            fixes.reset_winsock()
+            fixes.run_chkdsk()
 
         elif fix == "6":
-            fixes.reset_tcpip()
+            fixes.reset_winsock()
 
         elif fix == "7":
+            fixes.reset_tcpip()
+
+        elif fix == "8":
             fixes.kill_high_cpu_process()
 
         else:
@@ -79,8 +101,11 @@ while True:
     
     elif choice == "5":
         health.calculate_health_score()
-
+        
     elif choice == "6":
+        event_logs.show_event_logs()
+
+    elif choice == "7":
         break
 
     else:
