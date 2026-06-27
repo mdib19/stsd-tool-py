@@ -1,4 +1,4 @@
-# Self Troubleshoot and System Diagnostic Tool Python
+# Windows Self Troubleshoot and System Diagnostic Tool
 A simple Self Troubleshoot and System Diagnostic Tool (Windows only) made with Python
 
 ## Features:
