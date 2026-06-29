@@ -1,112 +1,93 @@
-import ctypes
-import sys
-import os
+import socket
+import subprocess
+import psutil
 
-def run_as_admin():
-    if ctypes.windll.shell32.IsUserAnAdmin():
-        return
-    else:
-        script = os.path.abspath(sys.argv[0])
-        ctypes.windll.shell32.ShellExecuteW(
-            None, "runas", sys.executable, f'"{script}"', None, 1
-        )
-        sys.exit()
+def run_full_diagnosis():
+    print("\n=== FULL SYSTEM DIAGNOSIS ===")
+    warnings = []
 
-run_as_admin()
 
-from selections import system_info
-from selections import performance
-from selections import network
-from selections import fixes
-from selections import health
-from selections import event_logs
-
-while True:
-    print("\n=== SELF TROUBLESHOOT AND SYSTEM DIAGNOSTIC TOOL ===")
-    print("[1] System Information")
-    print("[2] Performance Check")
-    print("[3] Network Check")
-    print("[4] Fixes")
-    print("[5] System Health Score")
-    print("[6] View Event Logs")
-    print("[7] Exit") 
-    choice = input("Please select an option: ")
-
-    if choice == "1":
-        system_info.show_system_info()
-
-    elif choice == "2":
-        performance.show_performance()
-
-    elif choice == "3":
-        print("[1] Internet Check")
-        print("[2] IP Info")
-        print("[3] Ping Test")
-        print("[4] Full Diagnosis")
-        sub = input("Please select an option: ")
-
-        if sub == "1":
-            network.check_internet()
-
-        elif sub == "2":
-            network.show_ip()
-
-        elif sub == "3":
-            network.ping_test()
-
-        elif sub == "4":
-            network.internet_diagnosis()
-
-        else:
-            print("Invalid option")
-            
-    elif choice == "4":
-        print("\n=== FIXES ===")
-        print("[1] Flush DNS --- Fixes websites not loading")
-        print("[2] Renew IP --- Fixes network issues")
-        print("[3] Clear Temp Files --- Frees space and speed up PC")
-        print("[4] Run SFC Scan --- Scan and repair corrupted system files")
-        print("[5] Check Disk (chkdsk) --- Scan and repair disk")
-        print("[6] Reset Winsock --- Fixes network issues")
-        print("[7] Reset TCP/IP Stack --- Fixes network issues")
-        print("[8] Kill High CPU Process --- Speed up PC")
-        fix = input("Please select an option: ")
-
-        if fix == "1":
-            fixes.flush_dns()
-
-        elif fix == "2":
-            fixes.renew_ip()
-
-        elif fix == "3":
-            fixes.clear_temp_files()
-
-        elif fix == "4":
-            fixes.run_sfc_scan()
-            
-        elif fix == "5":
-            fixes.run_chkdsk()
-
-        elif fix == "6":
-            fixes.reset_winsock()
-
-        elif fix == "7":
-            fixes.reset_tcpip()
-
-        elif fix == "8":
-            fixes.kill_high_cpu_process()
-
-        else:
-            print("Invalid option")
-    
-    elif choice == "5":
-        health.calculate_health_score()
+    #internet
+    print("\n[1/5] Checking Internet Connection...")
+    try:
+        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        print("\n Status: OK")
+        internet_ok = True
+    except:
+        print("\n Status: FAILED")
+        warnings.append("No internet connection detected.\n Check your router or try Renew IP / Reset Winsock in Fixes.")
+        internet_ok = False
         
-    elif choice == "6":
-        event_logs.show_event_logs()
-
-    elif choice == "7":
-        break
-
+        
+    #ping
+    print("\n[2/5] Checking Ping...")
+    if internet_ok:
+        result = subprocess.run(
+            ["ping", "8.8.8.8", "-n", "2"],
+            capture_output=True,
+            text=True
+        )
+        if "TTL=" in result.stdout:
+            print("\n Status: OK")
+        else:
+            print("\n Status: FAILED")
+            warnings.append("Ping test failed.\n Try Flush DNS or Reset TCP/IP Stack in Fixes.")
     else:
-        print("Invalid option")
+        print("\n Status: SKIPPED (No internet)")
+        
+        
+        
+    #cpu
+    print("\n[3/5] Checking CPU Usage...")
+    cpu = psutil.cpu_percent(interval=1)
+    if cpu >= 80:
+        print(f"\n Status: WARNING ({cpu}%)")
+        warnings.append(f"CPU usage is critically high ({cpu}%).\n Use Kill High CPU Process in Fixes.")
+    elif cpu >= 50:
+        print(f"\n Status: MODERATE ({cpu}%)")
+        warnings.append(f"CPU usage is moderately high ({cpu}%).\n Monitor and consider closing heavy applications.")
+    else:
+        print(f"\n Status: OK ({cpu}%)")
+        
+        
+    #ram
+    print("\n[4/5] Checking RAM Usage...")
+    ram = psutil.virtual_memory().percent
+    if ram >= 80:
+        print(f"\n Status: WARNING ({ram}%)")
+        warnings.append(f"RAM usage is critically high ({ram}%).\n Close unused applications.")
+    elif ram >= 50:
+        print(f"\n Status: MODERATE ({ram}%)")
+        warnings.append(f"RAM usage is moderately high ({ram}%).\n Monitor and close unused applications if it rises.")
+    else:
+        print(f"\n Status: OK ({ram}%)")
+
+
+
+    #disk
+    print("\n[5/5] Checking Disk Usage...")
+    disk = psutil.disk_usage('/').percent
+    if disk >= 85:
+        print(f"\n Status: WARNING ({disk}%)")
+        warnings.append(f"Disk space is critically low ({disk}%).\n Use Clear Temp Files in Fixes and uninstall unused programs.")
+    elif disk >= 60:
+        print(f"\n Status: MODERATE ({disk}%)")
+        warnings.append(f"Disk space is getting low ({disk}%).\n Consider clearing Temp Files in Fixes and uninstall unused programs.")
+    else:
+        print(f"\n Status: OK ({disk}%)")
+
+
+    #summ
+    print("\n=== DIAGNOSIS SUMMARY ===")
+    if not warnings:
+        print("\nAll checks passed.")
+        print("Overall Status: GOOD")
+    else:
+        print(f"\n{len(warnings)} issue(s) found:\n")
+        for i, warning in enumerate(warnings, 1):
+            print(f"[{i}] {warning}\n")
+
+        if len(warnings) >= 3:
+            print("Overall Status: POOR")
+        elif len(warnings) >= 1:
+            print("Overall Status: WARNING")
