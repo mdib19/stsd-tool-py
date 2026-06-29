@@ -8,3 +8,4 @@ A simple Self Troubleshoot and System Diagnostic Tool (Windows only) made with P
 -Fixes (Flush DNS, Renew IP, Clear Temp Files, SFC Scan, chkdsk, Reset Winsock/ TCP/ IP, Kill High CPU Process) <br>
 -System Health Check (Estimate system's health based on CPU, RAM and DISK usage) <br>
 -Event Logs Viewer <br>
+-System Diagnosis <br>
