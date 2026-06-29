@@ -3,9 +3,8 @@ import subprocess
 import psutil
 
 def run_full_diagnosis():
-    print("\n=== FULL SYSTEM DIAGNOSIS ===")
+    print("\n=== SYSTEM DIAGNOSIS ===")
     warnings = []
-
 
     #internet
     print("\n[1/5] Checking Internet Connection...")
@@ -33,19 +32,19 @@ def run_full_diagnosis():
             print("\n Status: FAILED")
             warnings.append("Ping test failed.\n Try Flush DNS or Reset TCP/IP Stack in Fixes.")
     else:
-        print("\n Status: SKIPPED (No internet)")
+        print("\n Status: N/A (No Internet)")
         
         
         
     #cpu
     print("\n[3/5] Checking CPU Usage...")
     cpu = psutil.cpu_percent(interval=1)
-    if cpu >= 80:
-        print(f"\n Status: WARNING ({cpu}%)")
+    if cpu >= 75:
+        print(f"\n Status: WARNING")
         warnings.append(f"CPU usage is critically high ({cpu}%).\n Use Kill High CPU Process in Fixes.")
     elif cpu >= 50:
-        print(f"\n Status: MODERATE ({cpu}%)")
-        warnings.append(f"CPU usage is moderately high ({cpu}%).\n Monitor and consider closing heavy applications.")
+        print(f"\n Status: MODERATE")
+        warnings.append(f"CPU usage is moderately high ({cpu}%).\n Consider closing heavy applications from Task Manager.")
     else:
         print(f"\n Status: OK ({cpu}%)")
         
@@ -53,28 +52,28 @@ def run_full_diagnosis():
     #ram
     print("\n[4/5] Checking RAM Usage...")
     ram = psutil.virtual_memory().percent
-    if ram >= 80:
-        print(f"\n Status: WARNING ({ram}%)")
-        warnings.append(f"RAM usage is critically high ({ram}%).\n Close unused applications.")
+    if ram >= 75:
+        print(f"\n Status: WARNING")
+        warnings.append(f"RAM usage is critically high ({ram}%).\n Close unused applications from Task Manager.")
     elif ram >= 50:
-        print(f"\n Status: MODERATE ({ram}%)")
-        warnings.append(f"RAM usage is moderately high ({ram}%).\n Monitor and close unused applications if it rises.")
+        print(f"\n Status: MODERATE")
+        warnings.append(f"RAM usage is moderately high ({ram}%).\n Consider closing unused applications from Task Manager")
     else:
-        print(f"\n Status: OK ({ram}%)")
+        print(f"\n Status: OK")
 
 
 
     #disk
     print("\n[5/5] Checking Disk Usage...")
     disk = psutil.disk_usage('/').percent
-    if disk >= 85:
-        print(f"\n Status: WARNING ({disk}%)")
+    if disk >= 75:
+        print(f"\n Status: WARNING")
         warnings.append(f"Disk space is critically low ({disk}%).\n Use Clear Temp Files in Fixes and uninstall unused programs.")
-    elif disk >= 60:
-        print(f"\n Status: MODERATE ({disk}%)")
+    elif disk >= 50:
+        print(f"\n Status: MODERATE")
         warnings.append(f"Disk space is getting low ({disk}%).\n Consider clearing Temp Files in Fixes and uninstall unused programs.")
     else:
-        print(f"\n Status: OK ({disk}%)")
+        print(f"\n Status: OK")
 
 
     #summ
