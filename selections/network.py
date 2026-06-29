@@ -3,9 +3,8 @@ import subprocess
 
 def check_internet():
     print("\n=== NETWORK CHECK ===")
-
     try:
-        #GOOGLE DNS
+        #try google dns
         socket.create_connection(("8.8.8.8", 53), timeout=3)
         print("Internet Status: Connected")
     except OSError:
@@ -14,7 +13,6 @@ def check_internet():
 
 def show_ip():
     print("\n=== IP INFORMATION ===")
-
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
 
@@ -24,7 +22,6 @@ def show_ip():
 
 def ping_test():
     print("\n=== PING TEST ===")
-
     result = subprocess.run(
         ["ping", "8.8.8.8", "-n", "2"],
         capture_output=True,
@@ -39,7 +36,6 @@ def ping_test():
 
 def internet_diagnosis():
     print("\n=== INTERNET DIAGNOSIS ===")
-
     try:
         socket.create_connection(("8.8.8.8", 53), timeout=3)
         internet = True
@@ -47,6 +43,6 @@ def internet_diagnosis():
         internet = False
 
     if internet:
-        print("Internet is working. If websites don't load, please try One Click Fixes")
+        print("Internet is working fine.")
     else:
-        print("No internet connection detected. Check Wi-Fi or router.")
+        print("No internet connection detected. Please check your Wi-Fi or router.")
