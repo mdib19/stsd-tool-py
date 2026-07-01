@@ -17,7 +17,7 @@ def renew_ip():
     print("Done.")
 
 #temp files
-def clear_temp_files():
+def clear_temp():
     print("\nClearing temporary files...")
 
     temp_path = os.getenv("TEMP")
@@ -37,7 +37,7 @@ def clear_temp_files():
         print("TEMP folder not found.")
 
 #sfc
-def run_sfc_scan():
+def run_sfc():
     print("\nRunning SFC Scan (this may take a few minutes)...")
     print("Please do not close the window.")
     subprocess.run("sfc /scannow", shell=True)
@@ -62,7 +62,7 @@ def reset_tcpip():
     print("Done. Please restart your computer for changes to take effect.")
 
 #high cpu processes
-def kill_high_cpu_process():
+def kill_highcpu():
     print("\nFinding highest CPU process...")
 
     PROTECTED = {"system", "svchost.exe", "lsass.exe", "csrss.exe", "winlogon.exe"}
