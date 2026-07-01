@@ -3,15 +3,19 @@ import psutil
 def show_performance():
     print("\n=== SYSTEM PERFORMANCE ===")
 
+    #CPU
     cpu = psutil.cpu_percent(interval=1)
     print("CPU Usage:", cpu, "%")
 
+    #RAM
     ram = psutil.virtual_memory()
     print("RAM Usage:", ram.percent, "%")
 
+    #DISK
     disk = psutil.disk_usage('/')
     print("Disk Usage:", disk.percent, "%")
 
+    #TOP CPU PROCESSES
     print("\nTop CPU Processes:")
     processes = psutil.process_iter(['pid', 'name', 'cpu_percent'])
 
@@ -23,6 +27,7 @@ def show_performance():
     for proc in sorted_processes[:5]:
         print(proc.info['name'], "-", proc.info['cpu_percent'], "%")
         
+    #TOP RAM PROCESSES
     print("\nTop RAM Processes:")
     processes = psutil.process_iter(['pid', 'name', 'memory_percent'])
 
