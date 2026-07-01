@@ -36,29 +36,26 @@ while True:
     choice = input("Please select an option: ")
 
     if choice == "1":
-        system_info.show_system_info()
+        system_info.show_info()
 
     elif choice == "2":
         performance.show_performance()
 
     elif choice == "3":
-        print("[1] Internet Check")
+        print("\n=== NETWORK CHECK ===")
+        print("[1] Internet Status")
         print("[2] IP Info")
         print("[3] Ping Test")
-        print("[4] Internet Diagnosis")
         sub = input("Please select an option: ")
 
         if sub == "1":
-            network.check_internet()
+            network.internet_status()
 
         elif sub == "2":
             network.show_ip()
 
         elif sub == "3":
             network.ping_test()
-
-        elif sub == "4":
-            network.internet_diagnosis()
 
         else:
             print("Invalid option")
@@ -82,10 +79,10 @@ while True:
             fixes.renew_ip()
 
         elif fix == "3":
-            fixes.clear_temp_files()
+            fixes.clear_temp()
 
         elif fix == "4":
-            fixes.run_sfc_scan()
+            fixes.run_sfc()
             
         elif fix == "5":
             fixes.run_chkdsk()
@@ -97,19 +94,19 @@ while True:
             fixes.reset_tcpip()
 
         elif fix == "8":
-            fixes.kill_high_cpu_process()
+            fixes.kill_highcpu()
 
         else:
             print("Invalid option")
     
     elif choice == "5":
-        health.calculate_health_score()
+        health.calc_health()
         
     elif choice == "6":
-        event_logs.show_event_logs()
+        event_logs.show_logs()
 
     elif choice == "7":
-        diagnosis.run_full_diagnosis()
+        diagnosis.run_diagnosis()
 
     elif choice == "8":
         break
