@@ -1,12 +1,12 @@
 import socket
 import subprocess
 
-def check_internet():
+def internet_status():
     print("\n=== NETWORK CHECK ===")
     try:
         #try google dns
         socket.create_connection(("8.8.8.8", 53), timeout=3)
-        print("Internet Status: Connected")
+        print("Internet Status: CONNECTED")
     except OSError:
         print("Internet Status: NOT CONNECTED")
 
@@ -32,17 +32,3 @@ def ping_test():
         print("Ping Result: SUCCESS")
     else:
         print("Ping Result: FAILED")
-
-
-def internet_diagnosis():
-    print("\n=== INTERNET DIAGNOSIS ===")
-    try:
-        socket.create_connection(("8.8.8.8", 53), timeout=3)
-        internet = True
-    except:
-        internet = False
-
-    if internet:
-        print("Internet is working fine.")
-    else:
-        print("No internet connection detected. Please check your Wi-Fi or router.")
